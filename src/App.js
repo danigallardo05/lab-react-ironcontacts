@@ -10,6 +10,7 @@ function App() {
   const [contacts, setContacts] = useState(contactsData.slice(0, 5));
   const [remainingContacts, setRemainingContacts] = useState(contactsData.slice(5))
   const [sortName, setSortName] = useState(contactsData)
+  const [sortPopurality, setSortPopurality] = useState(contactsData)
 
 
 
@@ -26,18 +27,34 @@ function App() {
     setRemainingContacts(copyRemainingContacts)
   }
 
-  // function to sort by name
+  // function to sort by name 
 
-  const sortNameFunction = () => {
-    console.log("hi")
-    const copySortName = [...contactsData]
-    copySortName.sort()
-    //setContacts(copySortName)
+  const sortNameFun = () => {
+
+   
+    let sortNa = [...contacts]
+
+    sortNa.sort(function(a, b){return a.name.localeCompare(b.name)})
+
+    setContacts(sortNa)
+    console.log(" sort by name works", sortNa)
+
   }
 
 
-  // function to sort by popularity
+  // function to sort by popularity 
 
+  const sortPopularity = () => {
+
+    
+    let sortPop = [...contacts]
+
+    sortPop.sort(function(a, b){return a.popularity - b.popularity })
+
+    setContacts(sortPop)
+console.log(" sort by popularity works", contacts)
+
+  }
 
 
 
@@ -50,9 +67,9 @@ function App() {
           Add Random Contact
         </button>
 
-        <button >Sort by popularity</button>
+        <button onClick={sortPopularity}>Sort by popularity</button>
 
-        <button onClick={sortNameFunction}>Sort by name </button>
+        <button onClick={sortNameFun}>Sort by name </button>
       </div>
 
       <br />
@@ -79,7 +96,17 @@ function App() {
                 <td>{e.popularity.toFixed(2)}</td>
                 <td>{e.wonOscar ? <img className='picture2' src={throphy} alt="trophy" /> : null}</td>
                 <td>{e.wonEmmy ? <img className='picture2' src={throphy} alt="trophy" /> : null}</td>
-                <td><button>Delete</button></td>
+                <td><button onClick={() => {
+                   const deleteArr = contacts.filter(element => {
+                    return (
+                      element.id !== e.id
+                    );
+                  })
+              
+                  setContacts(deleteArr);
+                 // console.log(deleteArr)
+
+                }}>Delete</button></td>
               </tr>
             )
           })}
